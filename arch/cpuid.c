@@ -10,7 +10,7 @@ typedef struct bsdnt_cpuid_t
    int stepping;
 } bsdnt_cpuid_t;
 
-void cpuid(unsigned int index, unsigned int *v1, 
+void cpuid(unsigned int index, unsigned int *v1,
            unsigned int *v2, unsigned int *v3, unsigned int *v4)
 {
     __asm__ __volatile__(
@@ -41,7 +41,7 @@ int main(void)
    {
       fms.family = ((val>>8) & 15);
       fms.model = ((val>>4) & 15);
-      if (fms.family == 15) 
+      if (fms.family == 15)
       {
          fms.family += ((val>>20) & 255);
          fms.model += ((val>>12) & 240);
@@ -53,7 +53,7 @@ int main(void)
       else switch (fms.family)
       {
          case 15: printf("k8\n"); break;
-         case 16: 
+         case 16:
             if (fms.model >= 4)
                printf("k102\n");
             else
@@ -63,6 +63,11 @@ int main(void)
          case 18: printf("k103\n"); break;
          case 20: printf("bobcat\n"); break;
          case 21: printf("bulldozer\n"); break;
+         case 22: printf("jaguar\n"); break;
+         case 23: printf("zen\n"); break;
+         case 24: printf("hygon\n"); break;
+         case 25: printf("zen3\n"); break;
+         case 26: printf("zen5\n"); break;
          default: printf("unknown\n");
       }
    } else if (strcmp(VendorID, "GenuineIntel") == 0)
