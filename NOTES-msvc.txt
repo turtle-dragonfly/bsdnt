@@ -40,6 +40,12 @@ MSVC has some equivalents. But note that these require the underlying processor 
 	#define low_zero_bits(n) ((int)_tzcnt_u32(n))
 	#define popcount_bits(n) ((int)__popcnt(n))
 
+3. Pragmas
+
+There are a handful of #pragma statements to disable warnings.
+Generally, MSVC has equivalent pragmas, with different ids.
+Most (all?) of the cases in question involve unused variables, and so the warning can also be quieted via a "(void)var" cast.
+
 3. Inline assembly
 
 The bsdnt library is designed to allow architecture-specific replacement of various functions, often implemented via assembly.
