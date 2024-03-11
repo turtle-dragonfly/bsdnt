@@ -62,7 +62,7 @@ typedef long bits_t;
 #define LEN_MAX LONG_MAX
 #define BITS_MAX LONG_MAX
 
-#define WORD_FMT "%l"
+#define WORD_FMT "%lu"
 #define LEN_FMT "%ld"
 #define BITS_FMT "%ld"
 

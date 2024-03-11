@@ -574,6 +574,34 @@ int test_addi(void)
       gc_cleanup();
    } TEST_END;
 
+   TEST_START(limits, 1) 
+   {
+#if WORD_BITS == 32
+      c1 = -0x80000000U;
+#else // 64-bit
+      c1 = -0x8000000000000000ULL;
+#endif
+      if (c1 != -c1)
+      {
+         result = 0;
+         printf("Minimum value behaved wrong: " WORD_FMT "\n", c1);
+      } else
+      {
+         zz_seti(a, 0);
+
+         // In the buggy case, this goes into infinite recursion.
+         zz_addi(a, a, c1);
+
+         if (0 != zz_cmpi(a, c1))
+         {
+            printf("Failed to set to minimum value: " WORD_FMT "\n", c1);
+            result = 0;
+         }
+
+         gc_cleanup();
+      }
+   } TEST_END;
+
    return result;
 }
 
@@ -1659,7 +1687,6 @@ int test_get_set_str(void)
 
    return result;
 }
-
 
 int test_zz(void)
 {
