@@ -29,14 +29,25 @@ Personally, I used (1a), which worked well enough.
 
 Note: one downside of this is that individual bits are addressed via bit_t which is the same size as sword_t. So, with a 32bit word, one can only address 2^31 bits (256 GiB). This is almost a problem in my case, but not quite. I tried changing bit_t to be a larger type, but the changes in bsdnt core code became fairly invasive fairly quickly, so I abandoned that effort. Unfortunately most other arbitrary-precision arithmetic libaries (such as libtommath) also use 32 bits to index bits (eg: doing a bitshift), which seems odd to me. Having a 64bit type for this was one of the appeals of bsdnt. Oh well.
 
-2. Inline assembly
+2. Intrinsics
+
+The bsdnt code uses a few GCC/clang-specific compiler intrinsics for bit counting.
+
+MSVC has some equivalents. But note that these require the underlying processor to support these operations. With GCC, if compiled for a target architechture that does not support them, an equivalent software solution will be inserted. But with MSVC, it will not. To be proper, you would run the __cpuid intrinsic to see if the system supports it. Or, just use a software in all cases. However, these are supported by reasonably old processors (ca. 2013), so I just use them unconditionally:
+
+	#include <intrin.h>
+	#define high_zero_bits(n) ((int)_lzcnt_u32(n))
+	#define low_zero_bits(n) ((int)_tzcnt_u32(n))
+	#define popcount_bits(n) ((int)__popcnt(n))
+
+3. Inline assembly
 
 The bsdnt library is designed to allow architecture-specific replacement of various functions, often implemented via assembly.
 This assembly is all written in GCC style, currently.
 
 In my MSVC build, I am not using any of this, just the plan C fallback implementation.
 
-3. Build system
+4. Build system
 
 The bsdnt library has a moderately complex config/make system to query the build system for CPU type, and choose the appropriate architecture-specific details.
 This is implemented in Make and Bash, so does not work on a Windows system.
