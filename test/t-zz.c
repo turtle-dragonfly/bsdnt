@@ -598,8 +598,6 @@ int test_addi(void)
             printf("Failed to set to minimum value: " WORD_FMT "\n", c1);
             result = 0;
          }
-
-         gc_cleanup();
       }
    } TEST_END;
 
