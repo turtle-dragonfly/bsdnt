@@ -587,6 +587,7 @@ int test_addi(void)
          printf("Minimum value behaved wrong: " WORD_FMT "\n", c1);
       } else
       {
+         zz_init(a);
          zz_seti(a, 0);
 
          // In the buggy case, this goes into infinite recursion.
