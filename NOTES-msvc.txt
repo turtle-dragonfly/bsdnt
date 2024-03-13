@@ -17,6 +17,7 @@ Some good discussion, requesting this feature, at: https://developercommunity.vi
 There are a few different ways to deal with this:
 
 	1a. (easiest) Define word_t as 32bit, and dword_t as 64bit. At the time of this writing, bsdnt has some issues with this configuration, but they are not hard to fix. I plan to contribute those changes back upstream.
+	This can largely be done with a custom "types_arch.h" file. But note: also update "tuning.h", which uses LONG_MAX.
 
 	1b. If compiling as C++, you can create your own "Int128" class, or somesuch, and use that for dword_t. Thanks to C++'s operator overloading, the bsdnt code should not need much updating. I have not tried this approach.
 
